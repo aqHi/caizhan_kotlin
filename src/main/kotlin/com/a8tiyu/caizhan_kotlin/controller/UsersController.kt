@@ -1,7 +1,7 @@
 package com.a8tiyu.caizhan_kotlin.controller
 import com.a8tiyu.caizhan_kotlin.entity.Coupons
-import com.a8tiyu.caizhan_kotlin.repository.CouponsRepository
 import com.a8tiyu.caizhan_kotlin.entity.Users
+import com.a8tiyu.caizhan_kotlin.repository.CouponsRepository
 import com.a8tiyu.caizhan_kotlin.repository.UsersRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping

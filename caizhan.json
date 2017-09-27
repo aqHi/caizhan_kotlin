@@ -1,0 +1,88 @@
+
+#活动名称
+#创建人
+#创建时间
+#最后修改人
+#最后修改时间
+#活动开始时间
+#活动结束时间
+#活动类型
+#备注
+#活动状态(-1：活动预热,0:活动进行中,1:活动已结束)
+db.promotions.insert({
+	"_id":ObjectId("59a4e68cc368be26845b91cc"),
+	"promotion_name":"活动测试",
+	"creator_name":"admin",
+	"c_time":"2017-08-16 20:16:52",
+	"last_modifier_name":"",
+	"m_time":"2017-08-17 20:16:52",
+	"begin_time":"2017-08-18 20:16:52",
+	"end_time":"2017-08-25 20:16:52",
+	"activity_type":"1",
+	"remark":"备注",
+	"status":"0"
+})
+
+#创建人
+#创建时间
+#兑换码
+#满多少
+#减多少
+#有效期
+db.coupons.insert({
+	"_id":ObjectId("59a507a3c368be26845b91cd"),
+	"promotion": {
+		"$ref": "promotions",
+		"$id": ObjectId("59a4e68cc368be26845b91cc"),
+		"$db": "test"
+	},
+	"c_time":"2017-08-16 20:16:52",
+	"m_time":"2017-08-17 20:16:52",
+	"coupon_code":"AABBCC",
+	"full_money":100,
+	"reduce_money":5,
+	"expire_days":10,
+	"user":{
+		"$ref": "users",
+		"$id": ObjectId("59a507a3c368be26845b81cd"),
+		"$db": "test"
+	}
+})
+
+
+
+#用户名
+#密码
+#昵称
+#手机号
+#盐
+db.users.insert({
+	"_id":ObjectId("59a507a3c368be26845b81cd"),
+	"username":"admin",
+	"password":"123456",
+	"nickname":"aqhi",
+	"mobilephone":"13888888888",
+	"password_salt":""
+})
+
+db.users.insert({
+	"username":"admin3",
+	"password":"123456",
+	"nickname":"aqhi",
+	"mobilephone":"13888888888",
+	"password_salt":""
+})
+
+db.example.insert({
+	"":"",
+	"":"",
+	"":""
+})
+
+
+db.users.find(
+	{"username":"admin"},
+	{"password":1,"password_salt":1,"_id":0}
+)
+
+db.users.find({'username': 'admin'},{'password':1,'password_salt':1,'_id':0})

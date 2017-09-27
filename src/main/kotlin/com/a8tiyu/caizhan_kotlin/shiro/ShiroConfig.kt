@@ -1,52 +1,50 @@
 package com.a8tiyu.caizhan_kotlin.shiro
 
-import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.context.annotation.Configuration
+import org.apache.shiro.mgt.SecurityManager
 import org.apache.shiro.spring.LifecycleBeanPostProcessor
-import org.apache.shiro.realm.text.PropertiesRealm
-import org.springframework.context.annotation.DependsOn
-import org.apache.shiro.web.mgt.DefaultWebSecurityManager
-import org.apache.shiro.web.filter.authc.UserFilter
-import org.apache.shiro.web.filter.authz.RolesAuthorizationFilter
-import org.apache.shiro.web.filter.authc.LogoutFilter
-import org.apache.shiro.web.filter.authc.FormAuthenticationFilter
-import org.apache.shiro.web.filter.authc.AnonymousFilter
-import java.util.HashMap
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager
+import org.slf4j.LoggerFactory
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator
 import org.springframework.context.annotation.Bean
-import javax.servlet.Filter
+import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.DependsOn
+import java.util.*
 
 
 @Configuration
-@SpringBootApplication
+
 class ShiroConfig {
+
+    private val logger = LoggerFactory.getLogger(ShiroConfig::class.java)
+
     @Bean(name = arrayOf("shiroFilter"))
-    fun shiroFilter(): ShiroFilterFactoryBean {
+    fun shiroFilter(securityManager: SecurityManager): ShiroFilterFactoryBean {
+
+        logger.info("注入Shiro的Web过滤器-->shiroFilter", ShiroFilterFactoryBean::class.java)
+
         val shiroFilter = ShiroFilterFactoryBean()
-        shiroFilter.loginUrl = "/login"
+
+        shiroFilter.loginUrl = "/gologin"
         shiroFilter.successUrl = "/index"
         shiroFilter.unauthorizedUrl = "/forbidden"
+
         val filterChainDefinitionMapping = HashMap<String, String>()
         filterChainDefinitionMapping.put("/", "anon")
         filterChainDefinitionMapping.put("/home", "authc,roles[guest]")
-        filterChainDefinitionMapping.put("/admin", "authc,roles[admin]")
+        filterChainDefinitionMapping.put("/admin/**", "authc,roles[admin]")
         shiroFilter.filterChainDefinitionMap = filterChainDefinitionMapping
-        shiroFilter.setSecurityManager(securityManager())
-        val filters = HashMap<String, Filter>()
-        filters.put("anon", AnonymousFilter())
-        filters.put("authc", FormAuthenticationFilter())
-        filters.put("logout", LogoutFilter())
-        filters.put("roles", RolesAuthorizationFilter())
-        filters.put("user", UserFilter())
-        shiroFilter.filters = filters
+
+        shiroFilter.securityManager = securityManager
+
         println(shiroFilter.filters.size)
         return shiroFilter
     }
 
     @Bean(name = arrayOf("securityManager"))
-    fun securityManager(): DefaultWebSecurityManager {
+    fun securityManager(realm: MyRealm): DefaultWebSecurityManager {
         val securityManager = DefaultWebSecurityManager()
-        securityManager.setRealm(realm())
+        securityManager.setRealm(realm)
         return securityManager
     }
 
@@ -54,10 +52,20 @@ class ShiroConfig {
     @DependsOn("lifecycleBeanPostProcessor")
     fun realm() = MyRealm()
 
-    @Bean
-    fun lifecycleBeanPostProcessor(): LifecycleBeanPostProcessor {
-        return LifecycleBeanPostProcessor()
+    @Bean(name = arrayOf("lifecycleBeanPostProcessor"))
+    fun lifecycleBeanPostProcessor() = LifecycleBeanPostProcessor()
+
+
+    @Bean(name = arrayOf("advisorAutoProxyCreator"))
+    @DependsOn("lifecycleBeanPostProcessor")
+    fun advisorAutoProxyCreator(): DefaultAdvisorAutoProxyCreator {
+        var advisorAutoProxyCreator = DefaultAdvisorAutoProxyCreator()
+        advisorAutoProxyCreator.isProxyTargetClass = true
+        return advisorAutoProxyCreator
+
     }
+
+
 }
 
 
