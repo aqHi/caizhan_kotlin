@@ -1,8 +1,10 @@
 package com.a8tiyu.caizhan_kotlin.entity
 
+import org.springframework.data.mongodb.core.mapping.Document
 import java.util.Date
 
 
+@Document(collection = "jczqmatch")
 data class JCZQMatch(
 
         var matchNum: String? = null,//比赛编码

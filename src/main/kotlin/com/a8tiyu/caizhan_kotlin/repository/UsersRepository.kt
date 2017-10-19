@@ -9,7 +9,6 @@ interface UsersRepository : MongoRepository<Users, String> {
 
     override fun findOne(id: String?): Users
 
-
     override fun findAll(): MutableList<Users>
 
     /**

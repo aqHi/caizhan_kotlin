@@ -6,7 +6,7 @@ buildscript {
 	}
 	repositories {
 		mavenCentral(
-
+			url: "http://maven.aliyun.com/nexus/content/groups/public/"
 		)
 	}
 	dependencies {
@@ -49,5 +49,7 @@ dependencies {
 	compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
 	// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+
+	compile("org.springframework.boot:spring-boot-starter-data-redis")
 
 }

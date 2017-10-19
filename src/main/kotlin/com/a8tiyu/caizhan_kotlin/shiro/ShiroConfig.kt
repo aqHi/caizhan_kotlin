@@ -32,7 +32,7 @@ class ShiroConfig {
         val filterChainDefinitionMapping = HashMap<String, String>()
         filterChainDefinitionMapping.put("/", "anon")
         filterChainDefinitionMapping.put("/home", "authc,roles[guest]")
-        filterChainDefinitionMapping.put("/admin/**", "authc,roles[admin]")
+//        filterChainDefinitionMapping.put("/admin/**", "authc,roles[admin]")
         shiroFilter.filterChainDefinitionMap = filterChainDefinitionMapping
 
         shiroFilter.securityManager = securityManager
