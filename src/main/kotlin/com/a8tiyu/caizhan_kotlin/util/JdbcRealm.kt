@@ -23,7 +23,7 @@
 //import org.apache.shiro.authz.AuthorizationException
 //import org.apache.shiro.authz.AuthorizationInfo
 //import org.apache.shiro.authz.SimpleAuthorizationInfo
-//import org.apache.shiro.config.ConfigurationException
+//import org.apache.shiro.common.ConfigurationException
 //import org.apache.shiro.realm.AuthorizingRealm
 //import org.apache.shiro.subject.PrincipalCollection
 //import org.apache.shiro.util.ByteSource

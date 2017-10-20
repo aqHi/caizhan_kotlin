@@ -1,4 +1,4 @@
-package com.a8tiyu.caizhan_kotlin.shiro
+package com.a8tiyu.caizhan_kotlin.common.shiro
 
 import org.apache.shiro.mgt.SecurityManager
 import org.apache.shiro.spring.LifecycleBeanPostProcessor
@@ -17,6 +17,9 @@ import java.util.*
 class ShiroConfig {
 
     private val logger = LoggerFactory.getLogger(ShiroConfig::class.java)
+
+
+
 
     @Bean(name = arrayOf("shiroFilter"))
     fun shiroFilter(securityManager: SecurityManager): ShiroFilterFactoryBean {

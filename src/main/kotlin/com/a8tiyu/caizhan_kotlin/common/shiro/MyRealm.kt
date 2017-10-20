@@ -1,4 +1,4 @@
-package com.a8tiyu.caizhan_kotlin.shiro
+package com.a8tiyu.caizhan_kotlin.common.shiro
 
 import com.a8tiyu.caizhan_kotlin.entity.Permissions
 import com.a8tiyu.caizhan_kotlin.entity.Users
@@ -29,7 +29,7 @@ class MyRealm : AuthorizingRealm() {
 
     private var log = LoggerFactory.getLogger(MyRealm::class.java)
 
-    protected var permissionsLookupEnabled = false
+    private var permissionsLookupEnabled = false
 
 
     @Throws(AuthenticationException::class)

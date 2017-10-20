@@ -1,4 +1,4 @@
-package com.a8tiyu.caizhan_kotlin.redis
+package com.a8tiyu.caizhan_kotlin.common.redis
 
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -39,7 +39,7 @@ class RedisConfig {
     @Value("\${spring.redis.database}")
     private val database: Int = 0
 
-    @Value("\${spring.redis.max-active}")
+    @Value("\${spring.redis.ssl}")
     private val ssl: Boolean = false
 
 

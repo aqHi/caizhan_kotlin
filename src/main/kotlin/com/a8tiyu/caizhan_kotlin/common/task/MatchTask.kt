@@ -1,4 +1,4 @@
-package com.a8tiyu.caizhan_kotlin.task
+package com.a8tiyu.caizhan_kotlin.common.task
 
 import com.a8tiyu.caizhan_kotlin.service.MatchService
 import org.slf4j.LoggerFactory

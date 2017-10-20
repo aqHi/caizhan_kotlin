@@ -3,12 +3,17 @@ package com.a8tiyu.caizhan_kotlin.controller
 import com.a8tiyu.caizhan_kotlin.entity.Users
 import com.a8tiyu.caizhan_kotlin.template.Result
 import com.a8tiyu.caizhan_kotlin.template.ResultCode
+import com.auth0.jwt.JWT
 import org.apache.shiro.SecurityUtils
 import org.apache.shiro.authc.*
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
+import org.springframework.context.support.ClassPathXmlApplicationContext
+
+
 
 
 @RestController
@@ -17,11 +22,15 @@ class AuthController {
     private val loger = LoggerFactory.getLogger(AuthController::class.java)
 
 
+
+
     /**
      * 登陆请求
      */
     @RequestMapping("/login", method = arrayOf(RequestMethod.POST))
     fun login(username: String, password: String): Result<Any> {
+
+        val ac = ClassPathXmlApplicationContext("spring.xml")
 
         var currentUser = SecurityUtils.getSubject()
 
@@ -58,6 +67,14 @@ class AuthController {
             currentUser.login(usernamePasswordToken)
             return if (currentUser.isAuthenticated) {
                 loger.info("登录成功!${currentUser.hasRole("admin")}")
+
+                var payload = HashMap<String ,Any>()
+                var date = Date()
+                payload.put("uid", currentUser.principal)
+                payload.put("iat",date.time)
+                payload.put("ext",date.time+1000*60*60*2)
+                JWT.create().withIssuer("")
+
                 Result.success(currentUser.principal)
 
             } else {
@@ -67,7 +84,6 @@ class AuthController {
 
             }
         } catch (e: AccountException) {
-
             return Result(-1, "error", "Username Required.")
         } catch (e: UnknownAccountException) {
             return Result.error(ResultCode.UNKNOWN_ACCOUNT, "Unknown Account.")
